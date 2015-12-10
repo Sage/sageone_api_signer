@@ -137,10 +137,13 @@ RSpec.describe SageoneApiRequestSigner do
 
   describe '#request_headers' do
     it 'should help write the request headers' do
-      expect(subject.request_headers).to eql({
+      expect(subject.request_headers('foo')).to eql({
         'Authorization' => "Bearer #{subject.access_token}",
         'X-Nonce' => subject.nonce,
-        'X-Signature' => subject.signature
+        'X-Signature' => subject.signature,
+        'Accept' => '*/*',
+        'Content-Type' => 'application/x-www-form-urlencoded',
+        'User-Agent' => 'foo'
       })
     end
   end

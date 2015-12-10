@@ -3,7 +3,7 @@ require "active_support"
 require "active_support/core_ext"
 require "base64"
 
-# "Sign" an Sageone API request call following the steps detailed here:
+# Sign a Sage One API request call following the steps detailed here:
 # https://developers.sageone.com/docs#signing_your_requests
 class SageoneApiRequestSigner
 
@@ -64,16 +64,20 @@ class SageoneApiRequestSigner
     ].join('&')
   end
 
+  # generate a Base64 encoded signature
   def signature
     @signature ||= Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha1'), signing_key, signature_base_string))
   end
 
-  # Just a help to write the signature info on the request headers
-  def request_headers
+  # The request headers
+  def request_headers(user_agent)
     {
       'Authorization' => "Bearer #{access_token}",
       'X-Nonce' => nonce,
-      'X-Signature' => signature
+      'X-Signature' => signature,
+      'Accept' => '*/*',
+      'Content-Type' => 'application/x-www-form-urlencoded',
+      'User-Agent' => user_agent
     }
   end
 

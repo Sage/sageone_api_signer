@@ -12,11 +12,7 @@ RSpec.describe 'testing complex body params' do
   end
 
   let(:headers) do
-    subject.request_headers.merge({
-      'Accept' => '*/*',
-      'Content-Type' => 'application/x-www-form-urlencoded',
-      'User-Agent' => 'NPSS'
-    })
+    subject.request_headers('foo')
   end
 
   it 'with multi-level hashes' do
