@@ -50,11 +50,14 @@ You can then generate the signature:
 or even the request headers:
 
 ```ruby
-  @signer.request_headers
+  @signer.request_headers("YOUR_APP_NAME")
   => {
   =>   'Authorization' => "Bearer 3a5cfe7c90a78276e247c73da7bf120fc5283693",
   =>   'X-Nonce' => "e673495125616bed53624a76db215a8a",
-  =>   'X-Signature' => "g1Cteq+JHjJzXYn7FpaLF42BymQ=\n"
+  =>   'X-Signature' => "g1Cteq+JHjJzXYn7FpaLF42BymQ=\n",
+  =>   'Accept' => '*/*',
+  =>   'Content-Type' => 'application/x-www-form-urlencoded',
+  =>   'User-Agent' => "YOUR_APP_NAME"
   => }
 
 ```

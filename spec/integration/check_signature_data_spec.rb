@@ -17,11 +17,7 @@ RSpec.describe SageoneApiRequestSigner do
 
   describe 'doing a real call to the test endpoint' do
     it 'should check with the test server data' do
-      headers = subject.request_headers.merge({
-        'Accept' => '*/*',
-        'Content-Type' => 'application/x-www-form-urlencoded',
-        'User-Agent' => 'NPSS'
-      })
+      headers = subject.request_headers('foo')
 
       begin
         RestClient.post subject.url, subject.body_params, headers
