@@ -1,12 +1,14 @@
-# Sageone Api Request Signer
+# Sage One API Request Signer
 
-This gem do the signing process needed to make every request to a [SageOne](http://www.sageone.com) API.
+[![Build Status](https://travis-ci.org/Sage/sageone_api_request_signer.svg?branch=add_travis)](https://travis-ci.org/Sage/sageone_api_request_signer)
 
-The signing proccess is described here: [https://developers.sageone.com/docs#signing_your_requests](https://developers.sageone.com/docs#signing_your_requests)
+This gem handles the required signing of requests to the [Sage One](http://www.sageone.com) API.
+
+The signing process is described in detail here: [https://developers.sageone.com/docs#signing_your_requests](https://developers.sageone.com/docs#signing_your_requests)
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add the `sageone_api_request_signer` to your application's Gemfile:
 
 ```ruby
 gem 'sageone_api_request_signer'
@@ -16,13 +18,13 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
+Or install the gem yourself:
 
     $ gem install sageone_api_request_signer
 
 ## Usage
 
-To create the signature string, you need to provide these data:
+To create a `SageoneApiRequestSigner` instance, you need to provide the following data:
 
 ```ruby
   @signer = SageoneApiRequestSigner.new({
@@ -32,24 +34,32 @@ To create the signature string, you need to provide these data:
       'contact[contact_type_id]' => 1,
       'contact[name]' => 'My Customer'
     },
-    signing_secret: 'TestSigningSecret',
-    access_token: 'TestToken',
+    signing_secret: 'YOUR_SIGNING_SECRET',
+    access_token: 'YOUR_ACCESS_TOKEN',
   })
 ```
 
-With the `@signer` you can get the request headers related to the signature part:
+You can then generate the signature:
+
+```ruby
+  @signer.signature
+  => "g1Cteq+JHjJzXYn7FpaLF42BymQ=\n"
+
+```
+
+or even the request headers:
 
 ```ruby
   @signer.request_headers
   => {
-  =>   'Authorization' => "Bearer #{@signer.access_token}",
-  =>   'X-Nonce' => @signer.nonce,
-  =>   'X-Signature' => @signer.signature,
+  =>   'Authorization' => "Bearer 3a5cfe7c90a78276e247c73da7bf120fc5283693",
+  =>   'X-Nonce' => "e673495125616bed53624a76db215a8a",
+  =>   'X-Signature' => "g1Cteq+JHjJzXYn7FpaLF42BymQ=\n"
   => }
 
 ```
 
-You can see a real example here: [Integration test making a real api call to a test endpoint](spec/integration/check_signature_data_spec.rb)
+You can see an example in this [integration test](spec/integration/check_signature_data_spec.rb).
 
 ## Contributing
 

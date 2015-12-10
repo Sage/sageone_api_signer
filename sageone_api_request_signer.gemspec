@@ -6,10 +6,10 @@ require 'sageone_api_request_signer/version'
 Gem::Specification.new do |spec|
   spec.name          = "sageone_api_request_signer"
   spec.version       = SageoneApiRequestSigner::VERSION
-  spec.authors       = ["Rudiney Altair Franceschi"]
-  spec.email         = ["rudi.atp@gmail.com"]
-  spec.summary       = %q{Sign requests call to SageOne API.}
-  spec.description   = %q{Sign requests call to SageOne API.}
+  spec.authors       = %q{Sage One Development Team}
+  spec.email         = %q{support@sageone.com}
+  spec.summary       = %q{Sign requests to Sage One API.}
+  spec.description   = %q{Sign requests to Sage One API.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
@@ -19,7 +19,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "activesupport"
-
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency 'fudge'
@@ -30,7 +29,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'flog'
   spec.add_development_dependency 'cane'
   spec.add_development_dependency 'simplecov'
-
   spec.add_development_dependency 'rest_client' # integration test do real api calls
-
 end
