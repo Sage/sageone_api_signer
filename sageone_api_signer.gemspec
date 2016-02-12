@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'sageone_api_request_signer/version'
+require 'sageone_api_signer/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "sageone_api_request_signer"
-  spec.version       = SageoneApiRequestSigner::VERSION
+  spec.name          = "sageone_api_signer"
+  spec.version       = SageoneApiSigner::VERSION
   spec.authors       = %q{Sage One Development Team}
   spec.email         = %q{support@sageone.com}
   spec.summary       = %q{Sign requests to Sage One API.}
