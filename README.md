@@ -1,6 +1,6 @@
 # Sage One API Signer
 
-[![Build Status](https://travis-ci.org/Sage/sageone_api_signer.svg?branch=add_travis)](https://travis-ci.org/Sage/sageone_api_signer)
+[![Build Status](https://travis-ci.org/Sage/sageone_api_signer.svg?branch=master)](https://travis-ci.org/Sage/sageone_api_signer)
 
 This gem handles the required signing of requests to the [Sage One](http://www.sageone.com) API.
 
