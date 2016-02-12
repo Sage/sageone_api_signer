@@ -1,4 +1,4 @@
-RSpec.describe SageoneApiRequestSigner do
+RSpec.describe SageoneApiSigner do
   it { expect(subject).to respond_to :request_method }
   it { expect(subject).to respond_to :url }
   it { expect(subject).to respond_to :body_params }

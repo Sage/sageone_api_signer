@@ -1,11 +1,11 @@
-require "sageone_api_request_signer/version"
+require "sageone_api_signer/version"
 require "active_support"
 require "active_support/core_ext"
 require "base64"
 
 # Sign a Sage One API request call following the steps detailed here:
 # https://developers.sageone.com/docs#signing_your_requests
-class SageoneApiRequestSigner
+class SageoneApiSigner
 
   attr_accessor :request_method, :url, :body_params, :nonce, :signing_secret, :access_token
 

@@ -3,7 +3,7 @@ require 'json'
 
 RSpec.describe 'testing complex body params' do
   subject do
-    SageoneApiRequestSigner.new({
+    SageoneApiSigner.new({
       request_method: 'post',
       url: 'https://api.sageone.com/test/accounts/v1/contacts',
       signing_secret: 'TestSigningSecret',

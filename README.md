@@ -1,6 +1,6 @@
-# Sage One API Request Signer
+# Sage One API Signer
 
-[![Build Status](https://travis-ci.org/Sage/sageone_api_request_signer.svg?branch=add_travis)](https://travis-ci.org/Sage/sageone_api_request_signer)
+[![Build Status](https://travis-ci.org/Sage/sageone_api_signer.svg?branch=add_travis)](https://travis-ci.org/Sage/sageone_api_signer)
 
 This gem handles the required signing of requests to the [Sage One](http://www.sageone.com) API.
 
@@ -8,10 +8,10 @@ The signing process is described in detail here: [https://developers.sageone.com
 
 ## Installation
 
-Add the `sageone_api_request_signer` to your application's Gemfile:
+Add the `sageone_api_signer` to your application's Gemfile:
 
 ```ruby
-gem 'sageone_api_request_signer'
+gem 'sageone_api_signer'
 ```
 
 And then execute:
@@ -20,14 +20,14 @@ And then execute:
 
 Or install the gem yourself:
 
-    $ gem install sageone_api_request_signer
+    $ gem install sageone_api_signer
 
 ## Usage
 
-To create a `SageoneApiRequestSigner` instance, you need to provide the following data:
+To create a `SageoneApiSigner` instance, you need to provide the following data:
 
 ```ruby
-  @signer = SageoneApiRequestSigner.new({
+  @signer = SageoneApiSigner.new({
     request_method: 'post',
     url: 'https://api.sageone.com/test/accounts/v1/contacts?config_setting=foo',
     body_params: {
@@ -66,7 +66,7 @@ You can see an example in this [integration test](spec/integration/check_signatu
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/sageone_api_request_signer/fork )
+1. Fork it ( https://github.com/[my-github-username]/sageone_api_signer/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

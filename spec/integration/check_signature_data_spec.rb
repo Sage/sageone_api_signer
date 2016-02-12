@@ -1,9 +1,9 @@
 require 'rest_client'
 require 'json'
 
-RSpec.describe SageoneApiRequestSigner do
+RSpec.describe SageoneApiSigner do
   subject do
-    SageoneApiRequestSigner.new({
+    SageoneApiSigner.new({
       request_method: 'post',
       url: 'https://api.sageone.com/test/accounts/v1/contacts?config_setting=foo',
       body_params: {
