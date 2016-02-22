@@ -1,6 +1,6 @@
 require "sageone_api_signer/version"
 require "sageone_api_signer/percent_encoder"
-require "sageone_api_signer/signature_base"
+require "sageone_api_signer/signature_base_v2"
 require "active_support"
 require "active_support/core_ext"
 require "base64"
@@ -53,7 +53,7 @@ class SageoneApiSigner
   end
 
   def signature_base
-    @signature_base ||= SignatureBase.new(request_method, uri, body_params, nonce)
+    @signature_base ||= SignatureBaseV2.new(request_method, uri, body_params, nonce)
   end
 
   def signing_key

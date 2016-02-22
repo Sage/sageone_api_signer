@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe SageoneApiSigner::SignatureBase do
+RSpec.describe SageoneApiSigner::SignatureBaseV2 do
 
   let(:request_method) { "POST" }
   let(:url) { "https://api.sageone.com/accounts/v1/contacts?config_setting=foo" }

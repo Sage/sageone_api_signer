@@ -83,7 +83,7 @@ RSpec.describe SageoneApiSigner do
 
   describe '#signature_base' do
     it 'returns a SignatureBase instance' do
-      expect(subject.send(:signature_base)).to be_a SageoneApiSigner::SignatureBase
+      expect(subject.send(:signature_base)).to be_a SageoneApiSigner::SignatureBaseV2
     end
 
     it 'returns the correct signature when converted to string' do
