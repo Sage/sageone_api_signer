@@ -102,6 +102,13 @@ RSpec.describe SageoneApiSigner do
       it 'returns a SignatureBase instance' do
         expect(subject.send(:signature_base)).to be_a SageoneApiSigner::SignatureBaseV3
       end
+
+      it 'returns the correct signature when converted to string' do
+        expected = 'POST&https%3A%2F%2Fapi.sage.com%2Fgb%2Fsageone%2Faccounts%2Fv3%2Fcontacts&' \
+                   'body%3DeyJjb250YWN0W2NvbnRhY3RfdHlwZV9pZF0iOjEsImNvbnRhY3RbbmFtZV0iOiJNeSBDdXN0b21lciJ9%26' \
+                   'config_setting%3Dfoo&d6657d14f6d3d9de453ff4b0dc686c6d'
+        expect(subject.send(:signature_base).to_s).to eql expected
+      end
     end
   end
 
