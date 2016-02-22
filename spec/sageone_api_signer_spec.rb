@@ -24,10 +24,12 @@ RSpec.describe SageoneApiSigner do
     expect(obj.access_token).to   eql 'token'
   end
 
+  let(:url) { 'https://api.sageone.com/accounts/v1/contacts?config_setting=foo' }
+
   subject do
     described_class.new(
       request_method: 'post',
-      url: 'https://api.sageone.com/accounts/v1/contacts?config_setting=foo',
+      url: url,
       nonce: 'd6657d14f6d3d9de453ff4b0dc686c6d',
       body_params: {
         'contact[contact_type_id]' => 1,
@@ -82,14 +84,24 @@ RSpec.describe SageoneApiSigner do
   end
 
   describe '#signature_base' do
-    it 'returns a SignatureBase instance' do
-      expect(subject.send(:signature_base)).to be_a SageoneApiSigner::SignatureBaseV2
+    context "when the call goes to API version 1 or 2" do
+      it 'returns a SignatureBase instance' do
+        expect(subject.send(:signature_base)).to be_a SageoneApiSigner::SignatureBaseV2
+      end
+
+      it 'returns the correct signature when converted to string' do
+        expected = 'POST&https%3A%2F%2Fapi.sageone.com%2Faccounts%2Fv1%2Fcontacts&config_setting%3Dfoo%26' \
+                   'contact%255Bcontact_type_id%255D%3D1%26contact%255Bname%255D%3DMy%2520Customer&d6657d14f6d3d9de453ff4b0dc686c6d'
+        expect(subject.send(:signature_base).to_s).to eql expected
+      end
     end
 
-    it 'returns the correct signature when converted to string' do
-      expected = 'POST&https%3A%2F%2Fapi.sageone.com%2Faccounts%2Fv1%2Fcontacts&config_setting%3Dfoo%26' \
-                 'contact%255Bcontact_type_id%255D%3D1%26contact%255Bname%255D%3DMy%2520Customer&d6657d14f6d3d9de453ff4b0dc686c6d'
-      expect(subject.send(:signature_base).to_s).to eql expected
+    context "when the call goes to API version 3" do
+      let(:url) { "https://api.sage.com/gb/sageone/accounts/v3/contacts?config_setting=foo" }
+
+      it 'returns a SignatureBase instance' do
+        expect(subject.send(:signature_base)).to be_a SageoneApiSigner::SignatureBaseV3
+      end
     end
   end
 

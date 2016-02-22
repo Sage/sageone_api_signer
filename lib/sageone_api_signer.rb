@@ -1,6 +1,7 @@
 require "sageone_api_signer/version"
 require "sageone_api_signer/percent_encoder"
 require "sageone_api_signer/signature_base_v2"
+require "sageone_api_signer/signature_base_v3"
 require "active_support"
 require "active_support/core_ext"
 require "base64"
@@ -53,7 +54,15 @@ class SageoneApiSigner
   end
 
   def signature_base
-    @signature_base ||= SignatureBaseV2.new(request_method, uri, body_params, nonce)
+    @signature_base ||= signature_base_class.new(request_method, uri, body_params, nonce)
+  end
+
+  def signature_base_class
+    if uri.path =~ %r{\A/(\w+/)+v[12]/}     # path must start with "/foo/bar/baz/v2/" (example)
+      SignatureBaseV2
+    elsif uri.path =~ %r{\A/(\w+/)+v[3]/}   # path must start with "/foo/bar/baz/v3/" (example)
+      SignatureBaseV3
+    end
   end
 
   def signing_key
