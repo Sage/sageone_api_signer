@@ -72,7 +72,6 @@ RSpec.describe SageoneApiSigner do
     it 'BUG nil the second time we call it!!!' do
       subject.request_method = 'get'
       expect(subject.request_method).to eql 'GET'
-      expect(subject.request_method).to eql 'GET'
     end
   end
 
