@@ -2,8 +2,7 @@ require "sageone_api_signer/version"
 require "sageone_api_signer/percent_encoder"
 require "sageone_api_signer/signature_base_v2"
 require "sageone_api_signer/signature_base_v3"
-require "active_support"
-require "active_support/core_ext"
+require "active_support/core_ext/object/to_query"
 require "base64"
 
 # Sign a Sage One API request call following the steps detailed here:
