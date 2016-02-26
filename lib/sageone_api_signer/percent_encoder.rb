@@ -4,7 +4,7 @@ class SageoneApiSigner
 
     # Percent-encode the given string
     def percent_encode(str)
-      URI.escape(str.to_s, /[^0-9A-Za-z\-._~]/)
+      ERB::Util.url_encode(str)
     end
   end
 end
