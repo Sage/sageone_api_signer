@@ -30,5 +30,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'flog'
   spec.add_development_dependency 'cane'
   spec.add_development_dependency 'simplecov'
-  spec.add_development_dependency 'rest_client' # integration test do real api calls
+  spec.add_development_dependency 'rest-client' # integration test do real api calls
 end
