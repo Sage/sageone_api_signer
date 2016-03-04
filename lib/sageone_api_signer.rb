@@ -11,7 +11,7 @@ class SageoneApiSigner
 
   include SageoneApiSigner::PercentEncoder
 
-  attr_accessor :url, :body_params, :signing_secret, :access_token
+  attr_accessor :url, :body, :body_params, :signing_secret, :access_token
   attr_writer :request_method, :nonce
 
   def initialize(params = {})
@@ -54,7 +54,7 @@ class SageoneApiSigner
   end
 
   def signature_base
-    @signature_base ||= signature_base_class.new(request_method, uri, body_params, nonce)
+    @signature_base ||= signature_base_class.new(request_method, uri, body, body_params, nonce)
   end
 
   def signature_base_class

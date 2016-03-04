@@ -6,11 +6,12 @@ class SageoneApiSigner
 
     include SageoneApiSigner::PercentEncoder
 
-    attr_reader :request_method, :uri, :body_params, :nonce
+    attr_reader :request_method, :uri, :body, :body_params, :nonce
 
-    def initialize(request_method, uri, body_params, nonce)
+    def initialize(request_method, uri, body, body_params, nonce)
       @request_method = request_method
       @uri = uri
+      @body = body
       @body_params = body_params
       @nonce = nonce
     end

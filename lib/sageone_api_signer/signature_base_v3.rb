@@ -21,7 +21,7 @@ class SageoneApiSigner
     end
 
     def request_body
-      @request_body ||= (!body_params.nil? && !body_params.empty?) && body_params.to_json || ""
+      @request_body ||= body.to_s
     end
   end
 end
