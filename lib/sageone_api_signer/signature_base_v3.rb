@@ -17,7 +17,7 @@ class SageoneApiSigner
     end
 
     def encoded_body
-      percent_encode(Base64.strict_encode64(request_body))
+      Base64.strict_encode64(request_body)
     end
 
     def request_body
