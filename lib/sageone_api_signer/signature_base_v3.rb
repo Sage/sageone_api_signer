@@ -23,5 +23,9 @@ class SageoneApiSigner
     def request_body
       @request_body ||= body.to_s
     end
+
+    def signature_base_array
+      super << percent_encode(business_guid)
+    end
   end
 end

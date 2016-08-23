@@ -5,9 +5,11 @@ RSpec.describe SageoneApiSigner::SignatureBaseV3 do
   let(:request_method) { "POST" }
   let(:url) { "https://api.sage.com/gb/sageone/accounts/v3/contacts?config_setting=foo" }
   let(:uri) { URI(url) }
+  let(:body) { "" }
   let(:body_params) { {"contact[contact_type_id]" => "1", "contact[name]" => "My Customer"} }
   let(:nonce) { "d6657d14f6d3d9de453ff4b0dc686c6d" }
-  let(:object) { described_class.new(request_method, uri, body_params, nonce) }
+  let(:business_guid) { "bad0ff1ce" }
+  let(:object) { described_class.new(request_method, uri, body, body_params, nonce, business_guid) }
 
   subject { object }
 
@@ -15,8 +17,7 @@ RSpec.describe SageoneApiSigner::SignatureBaseV3 do
 
   describe "#to_s" do
     let(:expected) { 'POST&https%3A%2F%2Fapi.sage.com%2Fgb%2Fsageone%2Faccounts%2Fv3%2Fcontacts&' \
-                     'body%3DeyJjb250YWN0W2NvbnRhY3RfdHlwZV9pZF0iOiIxIiwiY29udGFjdFtuYW1lXSI6Ik15IEN1c3RvbWVyIn0' \
-                     '%25253D%26config_setting%3Dfoo&d6657d14f6d3d9de453ff4b0dc686c6d' }
+                     'body%3D%26config_setting%3Dfoo&d6657d14f6d3d9de453ff4b0dc686c6d&bad0ff1ce' }
 
     it "should follow the website example" do
       expect(subject.to_s).to eql expected
@@ -24,8 +25,7 @@ RSpec.describe SageoneApiSigner::SignatureBaseV3 do
   end
 
   describe '#parameter_string' do
-    let(:expected) { 'body=eyJjb250YWN0W2NvbnRhY3RfdHlwZV9pZF0iOiIxIiwiY29udGFjdFtuYW1lXSI6Ik15IEN1c3RvbWVyIn0' \
-                     '%253D&config_setting=foo' }
+    let(:expected) { 'body=&config_setting=foo' }
 
     it "should follow the website example" do
       expect(subject.send(:parameter_string)).to eql expected
@@ -55,9 +55,7 @@ RSpec.describe SageoneApiSigner::SignatureBaseV3 do
 
   describe "#request_body" do
     context "when the request has a body" do
-      before do
-        allow(subject).to receive(:body_params).and_return "bar" => "baz"
-      end
+      let(:body) { %|{"bar":"baz"}| }
 
       it "returns the body as JSON string" do
         expect(subject.send(:request_body)).to eql %|{"bar":"baz"}|

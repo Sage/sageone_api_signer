@@ -6,32 +6,26 @@ class SageoneApiSigner
 
     include SageoneApiSigner::PercentEncoder
 
-    attr_reader :request_method, :uri, :body, :body_params, :nonce
+    attr_reader :request_method, :uri, :body, :body_params, :nonce, :business_guid
 
-    def initialize(request_method, uri, body, body_params, nonce)
+    def initialize(request_method, uri, body, body_params, nonce, business_guid)
       @request_method = request_method
       @uri = uri
       @body = body
       @body_params = body_params
       @nonce = nonce
+      @business_guid = business_guid
     end
 
     # Returns the signature base, that will be used for generating the actual signature
     def to_s
-      @signature_base_string ||= [
-        request_method,
-        percent_encode(base_url),
-        percent_encode(parameter_string),
-        percent_encode(nonce)
-      ].join('&')
+      @signature_base_string ||= signature_base_array.join('&')
     end
 
     private
 
     def parameter_string
-      @parameter_string ||= (
-        Hash[url_params.merge(body_params).sort].to_query.gsub('+', '%20')
-      )
+      @parameter_string ||= Hash[url_params.merge(body_params).sort].to_query.gsub('+', '%20')
     end
 
     # Return the base URL without query string and fragment
@@ -51,6 +45,15 @@ class SageoneApiSigner
 
     def uri_port_string
       uri.port == uri.default_port ? "" : ":#{uri.port}"
+    end
+
+    def signature_base_array
+      [
+          request_method,
+          percent_encode(base_url),
+          percent_encode(parameter_string),
+          percent_encode(nonce)
+      ]
     end
   end
 end

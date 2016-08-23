@@ -5,6 +5,7 @@ RSpec.describe SageoneApiSigner do
   it { expect(subject).to respond_to :nonce }
   it { expect(subject).to respond_to :signing_secret }
   it { expect(subject).to respond_to :access_token }
+  it { expect(subject).to respond_to :business_guid }
 
   it 'should set everything on initialize' do
     obj = described_class.new(
@@ -14,14 +15,16 @@ RSpec.describe SageoneApiSigner do
       nonce: 'nonce',
       signing_secret: 'secret',
       access_token: 'token',
+      business_guid: 'bad0ff1ce'
     )
 
     expect(obj.request_method).to eql 'METHOD'
     expect(obj.url).to            eql 'url'
     expect(obj.body_params).to    eql 'body'
     expect(obj.nonce).to          eql 'nonce'
-    expect(obj.signing_secret).to  eql 'secret'
+    expect(obj.signing_secret).to eql 'secret'
     expect(obj.access_token).to   eql 'token'
+    expect(obj.business_guid).to  eql 'bad0ff1ce'
   end
 
   let(:url) { 'https://api.sageone.com/accounts/v1/contacts?config_setting=foo' }
@@ -51,8 +54,18 @@ RSpec.describe SageoneApiSigner do
     end
   end
 
+  context 'when a business GUID was passed' do
+    before do
+      subject.business_guid = 'bad0ff1ce'
+    end
+
+    it 'sets the X-Site header' do
+      expect(subject.request_headers('foo')['X-Site']).to eql 'bad0ff1ce'
+    end
+  end
+
   describe '#nonce' do
-    it 'should build a rondom one by default' do
+    it 'should build a random one by default' do
       expect(SecureRandom).to receive(:hex).once.and_return('random nonce')
       obj = described_class.new
 
@@ -96,17 +109,28 @@ RSpec.describe SageoneApiSigner do
     end
 
     context "when the call goes to API version 3" do
-      let(:url) { "https://api.sage.com/gb/sageone/accounts/v3/contacts?config_setting=foo" }
+      let(:url) { "https://api.leiferikson.sage.com/gb/sageone/accounts/v3/contacts?config_type_id=vendor" }
+
+      before do
+        subject.business_guid = 'bad0ff1ce'
+      end
 
       it 'returns a SignatureBase instance' do
         expect(subject.send(:signature_base)).to be_a SageoneApiSigner::SignatureBaseV3
       end
 
       it 'returns the correct signature when converted to string' do
-        expected = 'POST&https%3A%2F%2Fapi.sage.com%2Fgb%2Fsageone%2Faccounts%2Fv3%2Fcontacts&' \
-                   'body%3DeyJjb250YWN0W2NvbnRhY3RfdHlwZV9pZF0iOjEsImNvbnRhY3RbbmFtZV0iOiJNeSBDdXN0b21lciJ9%26' \
-                   'config_setting%3Dfoo&d6657d14f6d3d9de453ff4b0dc686c6d'
+        expected = 'POST&https%3A%2F%2Fapi.leiferikson.sage.com%2Fgb%2Fsageone%2Faccounts%2Fv3%2Fcontacts&' \
+                   'body%3D%26config_type_id%3Dvendor&d6657d14f6d3d9de453ff4b0dc686c6d&bad0ff1ce'
         expect(subject.send(:signature_base).to_s).to eql expected
+      end
+    end
+
+    context "when the call goes to an unknown API version" do
+      let(:url) { "https://sage.api/gb/sageone/accounts/v99/contacts" }
+
+      it 'raises an error' do
+        expect { subject.send(:signature_base) }.to raise_error "Cannot determine API version from https://sage.api/gb/sageone/accounts/v99/contacts"
       end
     end
   end

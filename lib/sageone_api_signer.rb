@@ -3,6 +3,7 @@ require "sageone_api_signer/percent_encoder"
 require "sageone_api_signer/signature_base_v2"
 require "sageone_api_signer/signature_base_v3"
 require "active_support/core_ext/object/to_query"
+require "active_support/core_ext/object/blank"
 require "base64"
 
 # Sign a Sage One API request call following the steps detailed here:
@@ -11,7 +12,7 @@ class SageoneApiSigner
 
   include SageoneApiSigner::PercentEncoder
 
-  attr_accessor :url, :body, :body_params, :signing_secret, :access_token
+  attr_accessor :url, :body, :body_params, :signing_secret, :access_token, :business_guid
   attr_writer :request_method, :nonce
 
   def initialize(params = {})
@@ -29,7 +30,9 @@ class SageoneApiSigner
       'Accept' => '*/*',
       'Content-Type' => 'application/x-www-form-urlencoded',
       'User-Agent' => user_agent
-    }
+    }.tap do |headers|
+      headers['X-Site'] = business_guid if business_guid.present?
+    end
   end
 
   # The secure random generated string
@@ -54,7 +57,7 @@ class SageoneApiSigner
   end
 
   def signature_base
-    @signature_base ||= signature_base_class.new(request_method, uri, body, body_params, nonce)
+    @signature_base ||= signature_base_class.new(request_method, uri, body, body_params, nonce, business_guid)
   end
 
   def signature_base_class
@@ -62,6 +65,8 @@ class SageoneApiSigner
       SignatureBaseV2
     elsif uri.path =~ %r{\A/(\w+/)+v[3]/}   # path must start with "/foo/bar/baz/v3/" (example)
       SignatureBaseV3
+    else
+      raise "Cannot determine API version from #{uri.to_s}"
     end
   end
 

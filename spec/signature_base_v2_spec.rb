@@ -5,10 +5,12 @@ RSpec.describe SageoneApiSigner::SignatureBaseV2 do
   let(:request_method) { "POST" }
   let(:url) { "https://api.sageone.com/accounts/v1/contacts?config_setting=foo" }
   let(:uri) { URI(url) }
+  let(:body) { "" }
   let(:body_params) { {"contact[contact_type_id]" => "1", "contact[name]" => "My Customer"} }
   let(:nonce) { "d6657d14f6d3d9de453ff4b0dc686c6d" }
+  let(:business_guid) { "bad0ff1ce" }
 
-  let(:object) { described_class.new(request_method, uri, body_params, nonce) }
+  let(:object) { described_class.new(request_method, uri, body, body_params, nonce, business_guid) }
 
   subject { object }
 
