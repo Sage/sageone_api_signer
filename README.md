@@ -8,6 +8,8 @@ The signing process is described in detail here: [https://developers.sageone.com
 
 ## Installation
 
+Please note, we are currently only supporting Ruby 2.3.0.
+
 Add the `sageone_api_signer` to your application's Gemfile:
 
 ```ruby
