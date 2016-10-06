@@ -142,4 +142,34 @@ RSpec.describe SageoneApiSigner do
       expect(subject.send(:signing_key)).to eql '297850d556xxxxxxxxxxxxxxxxxxxxe722db1d2a&cULSIjxxxxxIhbgbjX0R6MkKO'
     end
   end
+
+  describe 'verifies form content_type' do
+    it 'should return application/x-www-form-urlencoded when form data passed' do
+      expect(subject.request_headers('foo')["Content-Type"]).to eql "application/x-www-form-urlencoded"
+    end
+  end
+
+  describe 'verifies json content-type' do
+    after do
+      JSON.parse subject.body_params
+    end
+
+    let(:v3_url) { "https://api.columbus.sage.com/uki/sageone/accounts/v3/contacts" }
+
+    it 'should return application/json when json data passed' do
+      json  = "{\"contact\":{\"name\": \"Wayne\",\"contact_type_ids\":[\"CUSTOMER\"]}}"
+      subject.body_params = json
+      subject.url = v3_url
+
+      subject do
+        described_class.new(
+          request_method: 'post',
+          url: v3_url,
+          nonce: 'd6657d14f6d3d9de453ff4b0dc686c6d',
+          body_params: json
+        )
+      end
+      expect(subject.request_headers('foo')["Content-Type"]).to eql "application/json"
+    end
+  end
 end

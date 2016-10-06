@@ -32,7 +32,7 @@ class SageoneApiSigner
       'User-Agent' => user_agent
     }.tap do |headers|
       headers['X-Site'] = business_guid if business_guid.present?
-      headers['Content-Type'] = 'application/json' if valid_json?(@body)
+      headers['Content-Type'] = 'application/json' if valid_json?(@body_params)
     end
   end
 
@@ -82,7 +82,7 @@ class SageoneApiSigner
     begin
       JSON.parse(json)
       return true
-    rescue Exception => e
+    rescue
       return false
   end
 end
