@@ -13,7 +13,7 @@ RSpec.describe SageoneApiSigner::SignatureBaseV3 do
 
   subject { object }
 
-  it { is_expected.to be_a SageoneApiSigner::SignatureBaseV2 }
+  it { is_expected.to be_a SageoneApiSigner::SignatureBaseV3 }
 
   describe "#to_s" do
     let(:expected) { 'POST&https%3A%2F%2Fapi.sage.com%2Fgb%2Fsageone%2Faccounts%2Fv3%2Fcontacts&' \
@@ -45,11 +45,10 @@ RSpec.describe SageoneApiSigner::SignatureBaseV3 do
   describe "#encoded_body" do
     before do
       allow(subject).to receive(:request_body).and_return "foo=bar"
-      allow(Base64).to receive(:strict_encode64).with("foo=bar").and_return "abc/dev"
     end
 
     it "returns the base64 encoded body" do
-      expect(subject.send(:encoded_body)).to eql "abc%2Fdev"
+      expect(subject.send(:encoded_body)).to eql "Zm9vPWJhcg=="
     end
   end
 

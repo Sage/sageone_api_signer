@@ -32,6 +32,7 @@ class SageoneApiSigner
       'User-Agent' => user_agent
     }.tap do |headers|
       headers['X-Site'] = business_guid if business_guid.present?
+      headers['Content-Type'] = 'application/json' if valid_json?(@body)
     end
   end
 
@@ -76,4 +77,13 @@ class SageoneApiSigner
       percent_encode(access_token)
     ].join('&')
   end
+
+  def valid_json?(json)
+    begin
+      JSON.parse(json)
+      return true
+    rescue
+      return false
+  end
+end
 end
