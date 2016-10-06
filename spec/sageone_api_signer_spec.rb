@@ -150,25 +150,12 @@ RSpec.describe SageoneApiSigner do
   end
 
   describe 'verifies json content-type' do
-    after do
-      JSON.parse subject.body_params
-    end
-
     let(:v3_url) { "https://api.columbus.sage.com/uki/sageone/accounts/v3/contacts" }
 
     it 'should return application/json when json data passed' do
       json  = "{\"contact\":{\"name\": \"Wayne\",\"contact_type_ids\":[\"CUSTOMER\"]}}"
-      subject.body_params = json
       subject.url = v3_url
-
-      subject do
-        described_class.new(
-          request_method: 'post',
-          url: v3_url,
-          nonce: 'd6657d14f6d3d9de453ff4b0dc686c6d',
-          body_params: json
-        )
-      end
+      subject.body = json
       expect(subject.request_headers('foo')["Content-Type"]).to eql "application/json"
     end
   end
