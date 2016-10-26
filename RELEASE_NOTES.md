@@ -1,3 +1,6 @@
+# v1.4.0
+* Change how spaces in query parameters are handled in v3 to percent encode as %20
+
 # v1.3.0
 * Rename to `sageone_api_signer`
 

@@ -9,7 +9,7 @@ class SageoneApiSigner
     private
 
     def parameter_string
-      query_params.merge("body" => encoded_body).to_query
+      query_params.merge("body" => encoded_body).to_query.gsub('+', '%20')
     end
 
     def query_params
