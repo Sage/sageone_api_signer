@@ -10,6 +10,9 @@ require "base64"
 # https://developers.sageone.com/docs#signing_your_requests
 class SageoneApiSigner
 
+  V1_V2_PATH_PATTERN = %r{\A/(\w+/)+v[12]/} # path must start with "/foo/bar/baz/v2/" (example)
+  V3_PATH_PATTERN = %r{\A/(\w+/)+v3/}     # path must start with "/foo/bar/baz/v3/" (example)
+
   include SageoneApiSigner::PercentEncoder
 
   attr_accessor :url, :body, :body_params, :signing_secret, :access_token, :business_guid
@@ -62,9 +65,9 @@ class SageoneApiSigner
   end
 
   def signature_base_class
-    if uri.path =~ %r{\A/(\w+/)+v[12]/}     # path must start with "/foo/bar/baz/v2/" (example)
+    if uri.path =~ V1_V2_PATH_PATTERN
       SignatureBaseV2
-    elsif uri.path =~ %r{\A/(\w+/)+v[3]/}   # path must start with "/foo/bar/baz/v3/" (example)
+    elsif uri.path =~ V3_PATH_PATTERN
       SignatureBaseV3
     else
       raise "Cannot determine API version from #{uri.to_s}"
