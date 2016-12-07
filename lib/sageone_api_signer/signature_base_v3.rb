@@ -1,4 +1,5 @@
 require "rack/utils"
+require "addressable"
 
 class SageoneApiSigner
   # Class to generate the signature base for generating the actual signature.
@@ -9,7 +10,7 @@ class SageoneApiSigner
     private
 
     def parameter_string
-      query_params.merge("body" => encoded_body).to_query
+      percent_encoded_query(query_params.merge("body" => encoded_body))
     end
 
     def query_params
@@ -26,6 +27,12 @@ class SageoneApiSigner
 
     def signature_base_array
       super << percent_encode(business_guid)
+    end
+
+    def percent_encoded_query(query_params)
+      uri = Addressable::URI.new
+      uri.query_values = query_params
+      uri.query
     end
   end
 end

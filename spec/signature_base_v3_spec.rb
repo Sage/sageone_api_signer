@@ -30,6 +30,14 @@ RSpec.describe SageoneApiSigner::SignatureBaseV3 do
     it "should follow the website example" do
       expect(subject.send(:parameter_string)).to eql expected
     end
+
+    context 'when parameter string includes a space' do
+      let(:url) { "https://api.sage.com/gb/sageone/accounts/v3/contacts?config_setting=foo%20bar" }
+      let(:expected) { 'body=&config_setting=foo%20bar' }
+      it 'should percent encode spaces as %20' do
+        expect(subject.send(:parameter_string)).to eql expected
+      end
+    end
   end
 
   describe "#query_params" do
