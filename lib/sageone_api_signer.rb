@@ -87,6 +87,6 @@ class SageoneApiSigner
       return true
     rescue
       return false
+    end
   end
-end
 end
