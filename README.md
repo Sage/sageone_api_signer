@@ -1,5 +1,7 @@
 # Sage One API Signer
 
+##### Warning: Request signing and noncing (the X-Signature and X-Nonce headers) is no longer checked in the Sage One API v3. This makes this library obsolete. Do not use this gem anymore!
+
 [![Build Status](https://travis-ci.org/Sage/sageone_api_signer.svg?branch=master)](https://travis-ci.org/Sage/sageone_api_signer)
 
 This gem handles the required signing of requests to the [Sage One](http://www.sageone.com) API.
