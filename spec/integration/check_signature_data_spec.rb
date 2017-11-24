@@ -1,4 +1,4 @@
-require 'rest_client'
+require 'rest-client'
 require 'json'
 
 RSpec.describe SageoneApiSigner do
