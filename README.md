@@ -73,3 +73,13 @@ You can see an example in this [integration test](spec/integration/check_signatu
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+
+## License
+
+This gem is available as open source under the terms of the
+[MIT licence](LICENSE).
+
+## Copyright
+
+Copyright (c) 2018 Sage Group Plc. All rights reserved.
