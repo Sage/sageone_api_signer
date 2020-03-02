@@ -1,3 +1,6 @@
+# v1.next
+* Upgrade Rake gem dependency to be at least v12.3.3, mitigating CVE-2020-8130
+
 # v1.3.0
 * Rename to `sageone_api_signer`
 
